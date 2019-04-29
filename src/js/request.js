@@ -35,19 +35,25 @@ class Request {
 
     const xhr = new XMLHttpRequest()
 
-    const promise = new Promise((resolve, reject) => {
-      xhr.onreadystatechange = () => {
-        if (xhr.readyState === 4 && xhr.status >= 200 && xhr.status < 300) {
-          resolve({ payload: xhr.responseText, status: xhr.status })
-        }
-      }
-    })
-
     xhr.open(method, url)
 
     xhr.send(data)
 
-    return promise
+    return new Promise((resolve, reject) => {
+      xhr.onreadystatechange = () => {
+        if (xhr.readyState === 4) {
+          const status = xhr.status
+          
+          if (status >= 100 && status < 400) {
+            resolve({ payload: xhr.responseText, status })
+          }
+          
+          if (status >= 400 && status < 600) {
+            reject({ payload: xhr.responseText, status: status })
+          }
+        }
+      }
+    })
   } 
 
   // Functions:
@@ -71,15 +77,3 @@ class Request {
 
 // Exports:
 export { Request }
-
-/*
-
-  const request = new Request({
-
-  })
-
-  Request.post({
-
-  })
-
-*/
