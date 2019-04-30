@@ -31,6 +31,8 @@ class Request {
   static _request(method, url, data) {
     if (method === 'GET') {
       url = queryString(url, data)
+    } else if (method === 'POST') {
+      data = JSON.stringify(data)
     }
 
     const xhr = new XMLHttpRequest()

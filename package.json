@@ -8,15 +8,14 @@
   },
   "description": "Request.js is a simple request tool for web applications.",
   "devDependencies": {
-    "@babel/core": "7.4.3",
-    "@babel/preset-env": "7.4.3",
+    "@babel/core": "7.4.4",
+    "@babel/preset-env": "7.4.4",
     "eslint": "5.16.0",
     "jest": "24.7.1",
     "jest-localstorage-mock": "2.4.0",
     "nock": "10.0.6",
     "parcel-bundler": "1.12.3",
-    "prettier": "1.17.0",
-    "xmlhttprequest": "1.8.0"
+    "prettier": "1.17.0"
   },
   "homepage": "https://github.com/tdmnco/request-js#readme",
   "jest": {
@@ -37,7 +36,7 @@
   "scripts": {
     "dist": "rm -rf dist && parcel build src/js/index.js --out-file request.js",
     "eslint": "eslint src/js/**/*.js",
-    "test": "jest test/js"
+    "test": "jest --verbose test/js"
   },
   "repository": {
     "type": "git",
