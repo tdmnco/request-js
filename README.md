@@ -1,7 +1,8 @@
 # Request.js [![NPM Version](https://badge.fury.io/js/tdmnco-request-js.svg)](https://www.npmjs.com/package/tdmnco-request-js)
 
-- [What is Model.js?](#what-is-model-js)
+- [What is Request.js?](#what-is-request-js)
 - [Installation](#installation)
+- [Documentation](#documentation)
 - [Getting Help](#getting-help)
 
 ## What is Request.js?
@@ -11,6 +12,28 @@ Request.js is a simple request tool for web applications.
 It is used internally at Tidemann&Co for all our web applications that require request-response handling in JavaScript.
 
 [↑ Back to top](#requestjs-)
+
+## Installation
+
+Installation is done via npm:
+
+```
+$ npm install tdmnco-request-js
+```
+
+[↑ Back to top](#requestjs-)
+
+## Documentation
+
+Using Request.js is a breeze. Consider these lines of code:
+
+```javascript
+import { Request } from 'tdmnco-request-js'
+
+Request.get('/users', '1').then((payload) => {
+  // Houston, we have a payload!
+})
+```
 
 ## Getting Help
 
