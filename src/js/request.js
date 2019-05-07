@@ -1,6 +1,3 @@
-// Imports:
-import { queryString } from './'
-
 // Classes:
 class Request {
   
@@ -33,12 +30,6 @@ class Request {
 
   // Static private functions:
   static _request(method, url, data) {
-    if (/DELETE|GET|PUT/.test(method)) {
-      url = queryString(url, data)
-    } else if (/PATCH|POST|PUT/.test(method)) {
-      data = JSON.stringify(data)
-    }
-
     const xhr = new XMLHttpRequest()
 
     xhr.open(method, url)

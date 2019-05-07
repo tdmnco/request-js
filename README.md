@@ -30,7 +30,7 @@ Using Request.js is a breeze. Consider these lines of code:
 ```javascript
 import { Request } from 'tdmnco-request-js'
 
-Request.get('/users', '1').then((payload) => {
+Request.get('/users/1').then((payload) => {
   // Houston, we have a payload!
 })
 ```

@@ -4,56 +4,32 @@ import nock from 'nock'
 
 // Constants:
 const baseURL = 'https://tdmnco-request-js.api'
+const endpoint = '/users/1'
+const payload = { firstname: 'Kasper', lastname: 'Tidemann' }
+const server = nock(baseURL).defaultReplyHeaders({ 'Access-Control-Allow-Origin': '*' })
+const url = baseURL + endpoint
 
 // Tests:
-test('Static POST (200) /users/1 (status)', () => {
-  nock(baseURL).defaultReplyHeaders({ 'Access-Control-Allow-Origin': '*' }).post('/users/1').reply(200)
+test('Static POST (200) ' + endpoint + ' (status)', () => {
+  server.post(endpoint).reply(200)
 
-  return expect(Request.post(baseURL + '/users/1')).resolves.toHaveProperty('status', 200)
+  return expect(Request.post(url)).resolves.toHaveProperty('status', 200)
 })
 
-test('Static POST (200) /users/1 (payload)', () => {
-  const payload = { firstname: 'Kasper', lastname: 'Tidemann' }
+test('Static POST (200) ' + endpoint + ' (payload)', () => {
+  server.post(endpoint).reply(200, payload)
 
-  nock(baseURL).defaultReplyHeaders({ 'Access-Control-Allow-Origin': '*' }).post('/users/1', payload).reply(200, { message: 'User data updated.' })
-
-  return expect(Request.post(baseURL + '/users/1', payload)).resolves.toHaveProperty('payload', '{"message":"User data updated."}')
+  return expect(Request.post(url, payload)).resolves.toHaveProperty('payload', JSON.stringify(payload))
 })
 
-test('Static POST (404) /users/1 (status)', () => {
-  nock(baseURL).defaultReplyHeaders({ 'Access-Control-Allow-Origin': '*' }).post('/users/1').reply(404)
+test('Instance POST (200) ' + endpoint + ' (status)', () => {
+  server.post(endpoint).reply(200)
 
-  return expect(Request.post(baseURL + '/users/1')).rejects.toHaveProperty('status', 404)
+  return expect(new Request({ url }).post()).resolves.toHaveProperty('status', 200)
 })
 
-test('Static POST (404) /users/1 (payload)', () => {
-  const payload = { firstname: 'Kasper', lastname: 'Tidemann' }
+test('Instance POST (200) ' + endpoint + ' (payload)', () => {
+  server.post(endpoint).reply(200, payload)
 
-  nock(baseURL).defaultReplyHeaders({ 'Access-Control-Allow-Origin': '*' }).post('/users/1', payload).reply(404, { message: 'User not found.' })
-
-  return expect(Request.post(baseURL + '/users/1', payload)).rejects.toHaveProperty('payload', '{"message":"User not found."}')
-})
-
-test('Instance POST (200) /users/1 (status)', () => {
-  nock(baseURL).defaultReplyHeaders({ 'Access-Control-Allow-Origin': '*' }).post('/users/1').reply(200)
-
-  return expect(new Request({ url: baseURL + '/users/1' }).post()).resolves.toHaveProperty('status', 200)
-})
-
-test('Instance POST (200) /users/1 (payload)', () => {
-  nock(baseURL).defaultReplyHeaders({ 'Access-Control-Allow-Origin': '*' }).post('/users/1').reply(200, { message: 'User data updated.' })
-
-  return expect(new Request({ url: baseURL + '/users/1' }).post()).resolves.toHaveProperty('payload', '{"message":"User data updated."}')
-})
-
-test('Instance POST (404) /users/1 (status)', () => {
-  nock(baseURL).defaultReplyHeaders({ 'Access-Control-Allow-Origin': '*' }).post('/users/1').reply(404)
-
-  return expect(new Request({ url: baseURL + '/users/1' }).post()).rejects.toHaveProperty('status', 404)
-})
-
-test('Instance POST (404) /users/1 (payload)', () => {
-  nock(baseURL).defaultReplyHeaders({ 'Access-Control-Allow-Origin': '*' }).post('/users/1').reply(404, { message: 'User not found.' })
-
-  return expect(new Request({ url: baseURL + '/users/1' }).post()).rejects.toHaveProperty('payload', '{"message":"User not found."}')
+  return expect(new Request({ url }).post()).resolves.toHaveProperty('payload', JSON.stringify(payload))
 })
