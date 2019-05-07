@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.
 ### News
 
 * Preliminary support for DELETE, PATCH and PUT requests.
+* Simplified function parameters.
 * Improved test coverage.
 
 ## 0.0.2
