@@ -19,6 +19,10 @@ class Request {
     return this._request('GET', url, data)
   }
 
+  static patch(url, data) {
+    return this._request('PATCH', url, data)
+  }
+
   static post(url, data) {
     return this._request('POST', url, data)
   }
@@ -29,9 +33,9 @@ class Request {
 
   // Static private functions:
   static _request(method, url, data) {
-    if (method === 'GET') {
+    if (/DELETE|GET|PUT/.test(method)) {
       url = queryString(url, data)
-    } else if (method === 'POST') {
+    } else if (/PATCH|POST|PUT/.test(method)) {
       data = JSON.stringify(data)
     }
 
@@ -65,6 +69,10 @@ class Request {
   
   get() {
     return this.constructor.get(this.url, this.data)
+  }
+
+  patch() {
+    return this.constructor.patch(this.url, this.data)
   }
 
   post() {
