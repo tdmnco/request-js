@@ -29,6 +29,17 @@ test('Static PUT (200) ' + endpoint + ' (timeout)', () => {
   return expect(Request.put({ data, options: { timeout: 10 }, url })).rejects.toHaveProperty('error')
 })
 
+test('Static PUT (200) ' + endpoint + ' (progress)', async () => {
+  server().put(endpoint).delay({ head: 10, body: 20 }).reply(200)
+  server().options(endpoint).reply(200)
+
+  let progress = 0
+
+  await Request.put({ options: { onprogress: () => { progress++ } }, url })
+
+  expect(progress).toBe(1)
+})
+
 test('Instance PUT (200) ' + endpoint + ' (status)', () => {
   server().put(endpoint).reply(200)
   server().options(endpoint).reply(200)
@@ -48,4 +59,15 @@ test('Instance PUT (200) ' + endpoint + ' (timeout)', () => {
   server().options(endpoint).reply(200)
 
   return expect(new Request({ data, options: { timeout: 10 }, url }).put()).rejects.toHaveProperty('error')
+})
+
+test('Instance PUT (200) ' + endpoint + ' (progress)', async () => {
+  server().put(endpoint).delay({ head: 10, body: 20 }).reply(200)
+  server().options(endpoint).reply(200)
+
+  let progress = 0
+
+  await new Request({ options: { onprogress: () => { progress++ } }, url }).put()
+
+  expect(progress).toBe(1)
 })

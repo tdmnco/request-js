@@ -29,6 +29,17 @@ test('Static PATCH (200) ' + endpoint + ' (timeout)', () => {
   return expect(Request.patch({ data, options: { timeout: 10 }, url })).rejects.toHaveProperty('error')
 })
 
+test('Static PATCH (200) ' + endpoint + ' (progress)', async () => {
+  server().patch(endpoint).delay({ head: 10, body: 20 }).reply(200)
+  server().options(endpoint).reply(200)
+
+  let progress = 0
+
+  await Request.patch({ options: { onprogress: () => { progress++ } }, url })
+
+  expect(progress).toBe(1)
+})
+
 test('Instance PATCH (200) ' + endpoint + ' (status)', () => {
   server().patch(endpoint).reply(200)
   server().options(endpoint).reply(200)
@@ -48,4 +59,15 @@ test('Instance PATCH (200) ' + endpoint + ' (timeout)', () => {
   server().options(endpoint).reply(200)
 
   return expect(new Request({ data, options: { timeout: 10 }, url }).patch()).rejects.toHaveProperty('error')
+})
+
+test('Instance PATCH (200) ' + endpoint + ' (progress)', async () => {
+  server().patch(endpoint).delay({ head: 10, body: 20 }).reply(200)
+  server().options(endpoint).reply(200)
+
+  let progress = 0
+
+  await new Request({ options: { onprogress: () => { progress++ } }, url }).patch()
+
+  expect(progress).toBe(1)
 })

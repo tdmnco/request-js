@@ -53,6 +53,10 @@ class Request {
         reject({ error })
       }
 
+      if (context.options) {
+        xhr.onprogress = context.options.onprogress
+      }
+
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
           const status = xhr.status
