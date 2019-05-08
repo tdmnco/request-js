@@ -2,9 +2,10 @@
 class Request {
   
   // Constructor:
-  constructor(data) {
-    this.data = data.data
-    this.url = data.url
+  constructor(context) {
+    this.data = context.data
+    this.options = context.options
+    this.url = context.url
   }
 
   // Static functions:
@@ -44,18 +45,30 @@ class Request {
     xhr.send(context.data)
 
     return new Promise((resolve, reject) => {
+      xhr.onabort = (error) => {
+        reject({ error })
+      }
+
+      xhr.onerror = (error) => {
+        reject({ error })
+      }
+
       xhr.onreadystatechange = () => {
         if (xhr.readyState === 4) {
           const status = xhr.status
           
           if (status >= 100 && status < 400) {
-            resolve({ payload: xhr.responseText, status })
+            resolve({ data: xhr.responseText, status })
           }
           
           if (status >= 400 && status < 600) {
-            reject({ payload: xhr.responseText, status: status })
+            reject({ data: xhr.responseText, status })
           }
         }
+      }
+
+      xhr.ontimeout = (error) => {
+        reject({ error })
       }
     })
   } 
