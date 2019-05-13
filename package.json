@@ -31,7 +31,7 @@
   ],
   "license": "MIT",
   "main": "dist/request.js",
-  "name": "tdmnco-request-js",
+  "name": "tdmnco-request",
   "scripts": {
     "dist": "rm -rf dist && parcel build src/js/index.js --out-file request.js",
     "eslint": "eslint src/js/**/*.js",
