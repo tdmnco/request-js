@@ -1,5 +1,5 @@
 // Imports:
-import { Request } from '../../src/js'
+import Request from '../../dist/js/request.js'
 import { baseURL, server } from './server'
 
 // Constants:

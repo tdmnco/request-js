@@ -101,4 +101,4 @@ class Request {
 }
 
 // Exports:
-export { Request }
+export default Request
