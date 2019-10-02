@@ -18,7 +18,7 @@ It is used internally at Tidemann&Co for all our web applications that require r
 Installation is done via npm:
 
 ```
-$ npm install tdmnco-request-js
+$ npm install tdmnco-request
 ```
 
 [↑ Back to top](#requestjs-)
@@ -28,7 +28,7 @@ $ npm install tdmnco-request-js
 Using Request.js is a breeze. Consider these lines of code:
 
 ```javascript
-import { Request } from 'tdmnco-request-js'
+import Request from 'tdmnco-request-js'
 
 Request.get({ url: '/users/1' }).then((payload) => {
   // Houston, we have a payload!
