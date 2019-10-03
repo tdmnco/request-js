@@ -37,15 +37,15 @@ class Request {
     const header = context.header
     const xhr = new XMLHttpRequest()
 
+    xhr.open(method, context.url, context.async !== undefined && context.async !== null ? context.async : true)
+
     if (header) {
       for (let key in header) {
         xhr.setRequestHeader(key, header[key])
       }
     }
 
-    xhr.open(method, context.url, context.async)
-
-    xhr.timeout = context.timeout
+    xhr.timeout = context.timeout || 0
 
     xhr.send(context.data)
 
