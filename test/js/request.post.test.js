@@ -23,7 +23,7 @@ test('Static POST (200) ' + endpoint + ' (data)', () => {
 test('Static POST (200) ' + endpoint + ' (timeout)', () => {
   server().post(endpoint).delay(20).reply(200, data)
 
-  return expect(Request.post({ data, options: { timeout: 10 }, url })).rejects.toHaveProperty('error')
+  return expect(Request.post({ data, timeout: 10, url })).rejects.toHaveProperty('error')
 })
 
 test('Static POST (200) ' + endpoint + ' (progress)', async () => {
@@ -31,9 +31,9 @@ test('Static POST (200) ' + endpoint + ' (progress)', async () => {
 
   let progress = 0
 
-  await Request.post({ options: { onprogress: () => { progress++ } }, url })
+  await Request.post({ onprogress: () => { progress++ }, url })
 
-  expect(progress).toBe(1)
+  expect(progress).toBeGreaterThan(0)
 })
 
 test('Instance POST (200) ' + endpoint + ' (status)', () => {
@@ -51,7 +51,7 @@ test('Instance POST (200) ' + endpoint + ' (data)', () => {
 test('Instance POST (200) ' + endpoint + ' (timeout)', () => {
   server().post(endpoint).delay(20).reply(200, data)
 
-  return expect(new Request({ data, options: { timeout: 10 }, url }).post()).rejects.toHaveProperty('error')
+  return expect(new Request({ data, timeout: 10, url }).post()).rejects.toHaveProperty('error')
 })
 
 test('Instance POST (200) ' + endpoint + ' (progress)', async () => {
@@ -59,7 +59,7 @@ test('Instance POST (200) ' + endpoint + ' (progress)', async () => {
 
   let progress = 0
 
-  await new Request({ options: { onprogress: () => { progress++ } }, url }).post()
+  await new Request({ onprogress: () => { progress++ }, url }).post()
 
-  expect(progress).toBe(1)
+  expect(progress).toBeGreaterThan(0)
 })

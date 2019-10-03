@@ -3,8 +3,11 @@ class Request {
   
   // Constructor:
   constructor(context) {
+    this.async = context.async
     this.data = context.data
-    this.options = context.options
+    this.header = context.header
+    this.onprogress = context.onprogress
+    this.timeout = context.timeout
     this.url = context.url
   }
 
@@ -31,16 +34,18 @@ class Request {
 
   // Static private functions:
   static _request(method, context) {
+    const header = context.header
     const xhr = new XMLHttpRequest()
-    const options = context.options
 
-    if (options) {
-      for (let key in options) {
-        xhr[key] = options[key]
+    if (header) {
+      for (let key in header) {
+        xhr.setRequestHeader(key, header[key])
       }
     }
 
-    xhr.open(method, context.url)
+    xhr.open(method, context.url, context.async)
+
+    xhr.timeout = context.timeout
 
     xhr.send(context.data)
 
@@ -53,8 +58,8 @@ class Request {
         reject({ error })
       }
 
-      if (context.options) {
-        xhr.onprogress = context.options.onprogress
+      if (context.onprogress) {
+        xhr.onprogress = context.onprogress
       }
 
       xhr.onreadystatechange = () => {

@@ -26,7 +26,7 @@ test('Static PATCH (200) ' + endpoint + ' (timeout)', () => {
   server().patch(endpoint).delay(20).reply(200, data)
   server().options(endpoint).reply(200)
 
-  return expect(Request.patch({ data, options: { timeout: 10 }, url })).rejects.toHaveProperty('error')
+  return expect(Request.patch({ data, timeout: 10, url })).rejects.toHaveProperty('error')
 })
 
 test('Static PATCH (200) ' + endpoint + ' (progress)', async () => {
@@ -35,9 +35,9 @@ test('Static PATCH (200) ' + endpoint + ' (progress)', async () => {
 
   let progress = 0
 
-  await Request.patch({ options: { onprogress: () => { progress++ } }, url })
+  await Request.patch({ onprogress: () => { progress++ }, url })
 
-  expect(progress).toBe(1)
+  expect(progress).toBeGreaterThan(0)
 })
 
 test('Instance PATCH (200) ' + endpoint + ' (status)', () => {
@@ -58,7 +58,7 @@ test('Instance PATCH (200) ' + endpoint + ' (timeout)', () => {
   server().patch(endpoint).delay(20).reply(200, data)
   server().options(endpoint).reply(200)
 
-  return expect(new Request({ data, options: { timeout: 10 }, url }).patch()).rejects.toHaveProperty('error')
+  return expect(new Request({ data, timeout: 10, url }).patch()).rejects.toHaveProperty('error')
 })
 
 test('Instance PATCH (200) ' + endpoint + ' (progress)', async () => {
@@ -67,7 +67,7 @@ test('Instance PATCH (200) ' + endpoint + ' (progress)', async () => {
 
   let progress = 0
 
-  await new Request({ options: { onprogress: () => { progress++ } }, url }).patch()
+  await new Request({ onprogress: () => { progress++ }, url }).patch()
 
-  expect(progress).toBe(1)
+  expect(progress).toBeGreaterThan(0)
 })
