@@ -35,7 +35,7 @@
     "tdmnco"
   ],
   "license": "MIT",
-  "main": "dist/request.js",
+  "main": "dist/js/request.js",
   "name": "tdmnco-request",
   "scripts": {
     "build": "run-s build:*",
@@ -54,5 +54,5 @@
     "type": "git",
     "url": "git+https://github.com/tdmnco/request-js.git"
   },
-  "version": "0.0.5"
+  "version": "0.0.6"
 }
