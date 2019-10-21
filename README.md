@@ -1,4 +1,4 @@
-# Request.js [![NPM Version](https://badge.fury.io/js/tdmnco-request-js.svg)](https://www.npmjs.com/package/tdmnco-request-js)
+# Request.js [![NPM Version](https://badge.fury.io/js/tdmnco-request.svg)](https://www.npmjs.com/package/tdmnco-request)
 
 - [What is Request.js?](#what-is-request-js)
 - [Installation](#installation)
@@ -28,7 +28,7 @@ $ npm install tdmnco-request
 Using Request.js is a breeze. Consider these lines of code:
 
 ```javascript
-import Request from 'tdmnco-request-js'
+import Request from 'tdmnco-request'
 
 Request.get({ url: '/users/1' }).then((payload) => {
   // Houston, we have a payload!
