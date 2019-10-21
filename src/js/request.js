@@ -1,3 +1,6 @@
+// Constants:
+const pending = {}
+
 // Classes:
 class Request {
   
@@ -34,10 +37,16 @@ class Request {
 
   // Static private functions:
   static _request(method, context) {
+    const url = context.url
+
+    if (context.pending && pending[method] && pending[method][url]) {
+      return pending[method][url]
+    }
+
     const header = context.header
     const xhr = new XMLHttpRequest()
 
-    xhr.open(method, context.url, context.async !== undefined && context.async !== null ? context.async : true)
+    xhr.open(method, url, context.async !== undefined && context.async !== null ? context.async : true)
 
     if (header) {
       for (let key in header) {
@@ -49,7 +58,7 @@ class Request {
 
     xhr.send(context.data)
 
-    return new Promise((resolve, reject) => {
+    const promise = new Promise((resolve, reject) => {
       xhr.onabort = (error) => {
         reject({ error })
       }
@@ -80,6 +89,20 @@ class Request {
         reject({ error })
       }
     })
+
+    if (!pending[method]) {
+      pending[method] = {}
+    }
+
+    pending[method][url] = promise
+
+    promise.then(() => {
+      delete pending[method][url]
+    }, () => {
+      delete pending[method][url]
+    })
+
+    return promise
   } 
 
   // Functions:
