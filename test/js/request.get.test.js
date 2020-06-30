@@ -1,65 +1,69 @@
 // Imports:
-import Request from '../../dist/js/request.js'
 import { baseURL, server } from './server'
 
-// Constants:
-const data = { user: { firstname: 'Kasper', lastname: 'Tidemann' } }
-const endpoint = '/users/1'
-const url = baseURL + endpoint
+// Exports:
+export function GET(Request) {
 
-// Tests:
-test('Static GET (200) ' + endpoint + ' (status)', () => {
-  server().get(endpoint).reply(200)
+  // Constants:
+  const data = { user: { firstname: 'Kasper', lastname: 'Tidemann' } }
+  const endpoint = '/users/1'
+  const url = baseURL + endpoint
 
-  return expect(Request.get({ url })).resolves.toHaveProperty('status', 200)
-})
+  // Tests:
+  test('Static GET (200) ' + endpoint + ' (status)', () => {
+    server().get(endpoint).reply(200)
 
-test('Static GET (200) ' + endpoint + ' (data)', () => {
-  server().get(endpoint).reply(200, data)
+    return expect(Request.get({ url })).resolves.toHaveProperty('status', 200)
+  })
 
-  return expect(Request.get({ url })).resolves.toHaveProperty('data', JSON.stringify(data))
-})
+  test('Static GET (200) ' + endpoint + ' (data)', () => {
+    server().get(endpoint).reply(200, data)
 
-test('Static GET (200) ' + endpoint + ' (timeout)', () => {
-  server().get(endpoint).delay(20).reply(200)
+    return expect(Request.get({ url })).resolves.toHaveProperty('data', JSON.stringify(data))
+  })
 
-  return expect(Request.get({ timeout: 10, url })).rejects.toHaveProperty('error')
-})
+  test('Static GET (200) ' + endpoint + ' (timeout)', () => {
+    server().get(endpoint).delay(20).reply(200)
 
-test('Static GET (200) ' + endpoint + ' (progress)', async () => {
-  server().get(endpoint).delay({ head: 10, body: 20 }).reply(200)
+    return expect(Request.get({ timeout: 10, url })).rejects.toHaveProperty('error')
+  })
 
-  let progress = 0
+  test('Static GET (200) ' + endpoint + ' (progress)', async () => {
+    server().get(endpoint).delay({ head: 10, body: 20 }).reply(200)
 
-  await Request.get({ onprogress: () => { progress++ }, url })
+    let progress = 0
 
-  expect(progress).toBeGreaterThan(0)
-})
+    await Request.get({ onprogress: () => { progress++ }, url })
 
-test('Instance GET (200) ' + endpoint + ' (status)', () => {
-  server().get(endpoint).reply(200)
+    expect(progress).toBeGreaterThan(0)
+  })
 
-  return expect(new Request({ url }).get()).resolves.toHaveProperty('status', 200)
-})
+  test('Instance GET (200) ' + endpoint + ' (status)', () => {
+    server().get(endpoint).reply(200)
 
-test('Instance GET (200) ' + endpoint + ' (data)', () => {
-  server().get(endpoint).reply(200, data)
+    return expect(new Request({ url }).get()).resolves.toHaveProperty('status', 200)
+  })
 
-  return expect(new Request({ data, url }).get()).resolves.toHaveProperty('data', JSON.stringify(data))
-})
+  test('Instance GET (200) ' + endpoint + ' (data)', () => {
+    server().get(endpoint).reply(200, data)
 
-test('Instance GET (200) ' + endpoint + ' (timeout)', () => {
-  server().get(endpoint).delay(20).reply(200)
+    return expect(new Request({ data, url }).get()).resolves.toHaveProperty('data', JSON.stringify(data))
+  })
 
-  return expect(new Request({ data, timeout: 10, url }).get()).rejects.toHaveProperty('error')
-})
+  test('Instance GET (200) ' + endpoint + ' (timeout)', () => {
+    server().get(endpoint).delay(20).reply(200)
 
-test('Instance GET (200) ' + endpoint + ' (progress)', async () => {
-  server().get(endpoint).delay({ head: 10, body: 20 }).reply(200)
+    return expect(new Request({ data, timeout: 10, url }).get()).rejects.toHaveProperty('error')
+  })
 
-  let progress = 0
+  test('Instance GET (200) ' + endpoint + ' (progress)', async () => {
+    server().get(endpoint).delay({ head: 10, body: 20 }).reply(200)
 
-  await new Request({ onprogress: () => { progress++ }, url }).get()
+    let progress = 0
 
-  expect(progress).toBeGreaterThan(0)
-})
+    await new Request({ onprogress: () => { progress++ }, url }).get()
+
+    expect(progress).toBeGreaterThan(0)
+  })
+
+}

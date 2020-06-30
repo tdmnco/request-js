@@ -5,21 +5,22 @@
   },
   "description": "Request.js is a simple request tool for web applications.",
   "devDependencies": {
-    "@babel/cli": "7.7.0",
-    "@babel/core": "7.7.0",
-    "@babel/preset-env": "7.7.1",
-    "@babel/plugin-transform-runtime": "7.6.2",
-    "@babel/runtime": "7.7.1",
-    "babelify": "10.0.0",
-    "del-cli": "3.0.0",
-    "eslint": "6.6.0",
-    "jest": "24.9.0",
-    "jest-localstorage-mock": "2.4.0",
-    "mkdirp": "0.5.1",
-    "nock": "11.4.0",
-    "npm": "6.13.0",
-    "npm-run-all": "4.1.5",
-    "uglify-js": "3.6.8"
+    "@babel/core": "7.10.3",
+    "@babel/plugin-transform-runtime": "7.10.3",
+    "@babel/preset-env": "7.10.3",
+    "@babel/runtime": "7.10.3",
+    "@rollup/plugin-commonjs": "13.0.0",
+    "@rollup/plugin-node-resolve": "8.1.0",
+    "eslint": "7.3.1",
+    "jest": "26.1.0",
+    "jest-localstorage-mock": "2.4.2",
+    "mkdirp": "1.0.4",
+    "nock": "13.0.0",
+    "npm": "6.14.5",
+    "rimraf": "3.0.2",
+    "rollup": "2.18.1",
+    "rollup-plugin-babel": "4.4.0",
+    "rollup-plugin-uglify": "6.0.4"
   },
   "homepage": "https://github.com/tdmnco/request-js#readme",
   "jest": {
@@ -38,21 +39,18 @@
   "main": "dist/js/request.js",
   "name": "tdmnco-request",
   "scripts": {
-    "build": "run-s build:*",
-    "build:clean": "del build && mkdirp build/js",
-    "build:js": "browserify src/js/request.js -o build/js/request.js -s Request -t [ babelify --presets [ @babel/preset-env ] --plugins [ @babel/plugin-transform-runtime ] ]",
-    "dist": "run-s dist:*",
-    "dist:clean": "del dist && mkdirp dist/js",
-    "dist:js": "npx uglifyjs -c -m -o dist/js/request.js build/js/request.js",
-    "dist:test": "npm run test",
-    "release": "npm run build && npm run dist",
-    "test": "run-s test:*",
-    "test:eslint": "eslint src/js/**/*.js",
-    "test:jest": "jest test/js"
+    "dist": "rollup -c",
+    "postdist": "npm run test:dist",
+    "predist": "rimraf dist && mkdirp dist/js",
+    "pretest": "eslint src/js/**/*.js",
+    "release": "npm run dist",
+    "test": "npm run test:dev && npm run test:dist",
+    "test:dev": "jest --verbose test/js/dev/request.test",
+    "test:dist": "jest --verbose test/js/dist/request.test"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/tdmnco/request-js.git"
   },
-  "version": "0.0.9"
+  "version": "0.1.0"
 }
